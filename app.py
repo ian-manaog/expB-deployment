@@ -1,5 +1,6 @@
 import numpy as np
 from fastapi import FastAPI, Form
+from fastapi.middleware.cors import CORSMiddleware
 import pandas as pd
 from starlette.responses import HTMLResponse 
 from tensorflow.keras.preprocessing.text import Tokenizer
@@ -14,6 +15,14 @@ from helpers.project import Project
 os.environ["CUDA_VISIBLE_DEVICES"]="-1"
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=['*'], #change this later on for better security
+    allow_credentials=True,
+    allow_methods=['*'],
+    allow_headers=['*'],
+)
 
 #initialize project resources
 project = Project()
@@ -55,11 +64,7 @@ def take_inp():
 @app.post('/predict') #prediction on data
 def predict(text:str = Form(...)): #input is from forms
     clean_text = my_pipeline(text) #cleaning and preprocessing of the texts
-<<<<<<< HEAD
-    if clean_text:#if cleantext is not empty
-=======
     if clean_text.shape[1] != 0:#if cleantext is not empty
->>>>>>> da130af0142ac24ca24c1f9830bfb7cca750b94d
         loaded_model = tf.keras.models.load_model('experimentB.hdf5') #loading the saved model
         predictions = loaded_model.predict(clean_text) #making predictions
         sentiment = int(np.argmax(predictions)) #index of maximum prediction
