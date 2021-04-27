@@ -33,7 +33,7 @@ tokenizer.fit_on_texts(prep_texts)
 def my_pipeline(text): #pipeline
   text_prep = preprocessor.preprocess(text) #clean and preprocess the data
   X = tokenizer.texts_to_sequences(pd.Series(text_prep).values)
-  X = pad_sequences(X)
+  X = pad_sequences(X, maxlen=31)
   return X
 
 
