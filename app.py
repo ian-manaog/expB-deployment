@@ -83,13 +83,13 @@ def predict(data: Data): #input is from forms
             t_sentiment='postive'
         
         return { #returning a dictionary as endpoint
-            "ACTUALL SENTENCE": text,
+            "ACTUALL SENTENCE": data.text,
             "PREDICTED SENTIMENT": t_sentiment,
             "Probability": probability
         }
     else:
         return { #returning a dictionary as endpoint
-            "ACTUALL SENTENCE": text,
+            "ACTUALL SENTENCE": data.text,
             "PREDICTED SENTIMENT": 'neutral',
             "Probability": 100
         }
