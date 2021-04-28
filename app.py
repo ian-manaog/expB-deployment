@@ -70,29 +70,28 @@ def take_inp():
 @app.post('/predict') #prediction on data
 def predict(data: Data): #input is from forms
     print("data is predicted")
-    async def create_item(data: Data):
-        print(data)
-        clean_text = my_pipeline(data) #cleaning and preprocessing of the texts
-        if clean_text.shape[1] != 0:#if cleantext is not empty
-            loaded_model = tf.keras.models.load_model('experimentB.hdf5') #loading the saved model
-            predictions = loaded_model.predict(clean_text) #making predictions
-            sentiment = int(np.argmax(predictions)) #index of maximum prediction
-            probability = max(predictions.tolist()[0]) #probability of maximum prediction
-            if sentiment==0: #assigning appropriate name to prediction
-                t_sentiment = 'negative'
-            elif sentiment==1:
-                t_sentiment = 'neutral'
-            elif sentiment==2:
-                t_sentiment='postive'
-            
-            return { #returning a dictionary as endpoint
-                "ACTUALL SENTENCE": text,
-                "PREDICTED SENTIMENT": t_sentiment,
-                "Probability": probability
-            }
-        else:
-            return { #returning a dictionary as endpoint
-                "ACTUALL SENTENCE": text,
-                "PREDICTED SENTIMENT": 'neutral',
-                "Probability": 100
-            }
+    print(data)
+    clean_text = my_pipeline(data) #cleaning and preprocessing of the texts
+    if clean_text.shape[1] != 0:#if cleantext is not empty
+        loaded_model = tf.keras.models.load_model('experimentB.hdf5') #loading the saved model
+        predictions = loaded_model.predict(clean_text) #making predictions
+        sentiment = int(np.argmax(predictions)) #index of maximum prediction
+        probability = max(predictions.tolist()[0]) #probability of maximum prediction
+        if sentiment==0: #assigning appropriate name to prediction
+            t_sentiment = 'negative'
+        elif sentiment==1:
+            t_sentiment = 'neutral'
+        elif sentiment==2:
+            t_sentiment='postive'
+        
+        return { #returning a dictionary as endpoint
+            "ACTUALL SENTENCE": text,
+            "PREDICTED SENTIMENT": t_sentiment,
+            "Probability": probability
+        }
+    else:
+        return { #returning a dictionary as endpoint
+            "ACTUALL SENTENCE": text,
+            "PREDICTED SENTIMENT": 'neutral',
+            "Probability": 100
+        }
