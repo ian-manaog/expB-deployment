@@ -69,7 +69,9 @@ def take_inp():
 
 @app.post('/predict') #prediction on data
 def predict(data: Data): #input is from forms
+    print("data is predicted")
     async def create_item(data: Data):
+        print(data)
         clean_text = my_pipeline(data) #cleaning and preprocessing of the texts
         if clean_text.shape[1] != 0:#if cleantext is not empty
             loaded_model = tf.keras.models.load_model('experimentB.hdf5') #loading the saved model
